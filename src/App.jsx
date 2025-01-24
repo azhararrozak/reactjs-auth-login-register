@@ -1,10 +1,12 @@
+import { Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
 
 function App() {
 
   return (
-    <>
-      <h2 className="font-bold text-3xl underline">Halo Guys Apakabar</h2>
-    </>
+    <Routes>
+      <Route path="/" element={<Home />} />
+    </Routes>
   )
 }
 
