@@ -1,31 +1,68 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import AuthService from "../services/auth.service";
 
 
 const Register = () => {
   const [username, setUsername] = useState("");
-    const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
+  const [successful, setSuccessful] = useState(false);
+  const [message, setMessage] = useState("");
+
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const onChangeUsername = (e) => {
+    const username = e.target.value;
+    setUsername(username);
+  }
+
+  const onChangeEmail = (e) => {
+    const email = e.target.value;
+    setEmail(email);
+  }
+
+  const onChangePassword = (e) => {
+    const password = e.target.value;
+    setPassword(password);
+  }
+
+  const onChangeConfirmPassword = (e) => {
+    const confirmPassword = e.target.value;
+    setConfirmPassword(confirmPassword);
+  }
+
+  const handleRegister = (e) => {
     e.preventDefault();
-    setError("");
+
+    setMessage("");
+    setSuccessful(false);
 
     if (password !== confirmPassword) {
-      setError("Passwords do not match");
+      setMessage("Passwords do not match");
       return;
     }
 
-    // Simulasi registrasi
-    if (email && password) {
-      navigate("/dashboard");
-    } else {
-      setError("Please fill in all fields");
-    }
-  };
+    AuthService.register(username, email, confirmPassword).then(
+      (response) => {
+        setMessage(response.data.message);
+        setSuccessful(true);
+        navigate("/auth/login");
+      },
+      (error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+
+        setSuccessful(false);
+        setMessage(resMessage);
+      }
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8 px-4">
@@ -37,7 +74,7 @@ const Register = () => {
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          <form className="space-y-6" onSubmit={handleSubmit}>
+          <form className="space-y-6" onSubmit={handleRegister}>
             <div>
               <label htmlFor="username" className="block text-sm font-medium text-gray-700">
                 Username
@@ -51,7 +88,7 @@ const Register = () => {
                   required
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  onChange={onChangeUsername}
                 />
               </div>
             </div>
@@ -69,7 +106,7 @@ const Register = () => {
                   required
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={onChangeEmail}
                 />
               </div>
             </div>
@@ -87,7 +124,7 @@ const Register = () => {
                   required
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={onChangePassword}
                 />
               </div>
             </div>
@@ -104,12 +141,10 @@ const Register = () => {
                   required
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  onChange={onChangeConfirmPassword}
                 />
               </div>
             </div>
-
-            {error && <div className="text-red-600 text-sm">{error}</div>}
 
             <div>
               <button
