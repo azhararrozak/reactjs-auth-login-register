@@ -1,13 +1,13 @@
 /* eslint-disable react/prop-types */
 import { Navigate, useLocation } from "react-router-dom";
-import AuthService from "../services/auth.service";
+import useAuthStore from "../stores/useAuthStore";
 
 /**
  * ProtectedRoute - redirects to /auth/login if user is not authenticated.
  * @param {{children: import('react').ReactNode}} props
  */
 const ProtectedRoute = ({ children }) => {
-  const user = AuthService.getCurrentUser();
+  const user = useAuthStore((s) => s.user);
   const location = useLocation();
 
   if (!user) {

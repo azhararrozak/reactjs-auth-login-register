@@ -1,14 +1,13 @@
 import { useNavigate } from 'react-router-dom'
-import AuthService from '../../services/auth.service'
+import useAuthStore from '../../stores/useAuthStore'
 
 const DashboardHeader = () => {
   const navigate = useNavigate()
-  const user = AuthService.getCurrentUser()
+  const user = useAuthStore((s) => s.user)
 
   const handleLogout = () => {
-    AuthService.logout()
+     useAuthStore.getState().logout()
     navigate('/')
-    window.location.reload()
   }
 
   return (

@@ -1,16 +1,14 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import AuthService from "../../services/auth.service";
+import useAuthStore from "../../stores/useAuthStore";
 
 const Header = () => {
   const navigate = useNavigate();
-  const user = AuthService.getCurrentUser();
+  const user = useAuthStore((s) => s.user);
 
   const handleLogout = () => {
-    AuthService.logout();
-    navigate("/");
-    // reload to ensure stateful UI updates where needed
-    window.location.reload();
+  useAuthStore.getState().logout();
+  navigate("/");
   };
 
   return (

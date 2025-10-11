@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import AuthService from "../services/auth.service";
+import useAuthStore from "../stores/useAuthStore";
 
 
 const Register = () => {
@@ -12,6 +12,7 @@ const Register = () => {
   const [message, setMessage] = useState("");
 
   const navigate = useNavigate();
+  const register = useAuthStore((s) => s.register)
 
   const onChangeUsername = (e) => {
     const username = e.target.value;
@@ -44,24 +45,24 @@ const Register = () => {
       return;
     }
 
-    AuthService.register(username, email, confirmPassword).then(
+    register(username, email, confirmPassword).then(
       (response) => {
-        setMessage(response.data.message);
+        // server may return a message - show it if present
+        setMessage(response?.message || "Registration successful");
         setSuccessful(true);
         navigate("/auth/login");
-      },
-      (error) => {
-        const resMessage =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-
-        setSuccessful(false);
-        setMessage(resMessage);
       }
-    );
+    ).catch((error) => {
+      const resMessage =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+
+      setSuccessful(false);
+      setMessage(resMessage);
+    });
   }
 
   return (

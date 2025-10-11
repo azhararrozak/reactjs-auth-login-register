@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import AuthService from "../services/auth.service";
+import { useState } from "react";
+import { useNavigate, Link, useLocation } from "react-router-dom";
+import useAuthStore from "../stores/useAuthStore";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -8,6 +8,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
 
   const onChangePassword = (e) => {
     const password = e.target.value;
@@ -25,23 +26,25 @@ const Login = () => {
     setMessage("");
     setLoading(true);
 
-    AuthService.login(username, password).then(
+    const login = useAuthStore.getState().login
+    login(username, password).then(
       () => {
-        navigate("/");
-        window.location.reload();
-      },
-      (error) => {
-        const resMessage =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-
-        setLoading(false);
-        setMessage(resMessage);
+        // redirect back to the page the user attempted to access or to home
+        const from = location.state?.from?.pathname || "/";
+        navigate(from, { replace: true });
       }
-    );
+    ).catch((error) => {
+      const resMessage =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+
+      setLoading(false);
+      setMessage(resMessage);
+    })
+    ;
   };
 
   return (
@@ -128,6 +131,9 @@ const Login = () => {
               </button>
             </div>
           </form>
+          {message && (
+            <div className="mt-4 text-sm text-red-600 text-center">{message}</div>
+          )}
           <div className="mt-4 text-center">
             <p className="text-sm text-gray-600">
               Dont have an account?{" "}

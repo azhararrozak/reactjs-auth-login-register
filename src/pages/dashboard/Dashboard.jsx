@@ -1,7 +1,7 @@
-import AuthService from '../../services/auth.service'
+import useAuthStore from '../../stores/useAuthStore'
 
 const Dashboard = () => {
-  const user = AuthService.getCurrentUser()
+  const user = useAuthStore((s) => s.user)
 
   return (
     <div className="bg-white p-6 rounded shadow">
