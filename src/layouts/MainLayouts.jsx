@@ -1,4 +1,5 @@
 
+import PropTypes from 'prop-types'
 import HomepageHeader from '../components/organisms/HomepageHeader'
 
 const MainLayouts = ({ children }) => {
@@ -8,6 +9,10 @@ const MainLayouts = ({ children }) => {
       <main className="content">{children}</main>
     </>
   )
+}
+
+MainLayouts.propTypes = {
+  children: PropTypes.node
 }
 
 export default MainLayouts
