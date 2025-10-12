@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import useAuthStore from "../../stores/useAuthStore";
+import useAuthStore from "../../../stores/useAuthStore";
 
 const HomepageHeader = () => {
   const navigate = useNavigate();

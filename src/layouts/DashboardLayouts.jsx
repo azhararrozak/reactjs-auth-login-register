@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
-import DashboardHeader from '../components/organisms/DashboardHeader'
-import DashboardNavbar from '../components/organisms/DashboardNavbar'
+import DashboardHeader from '../components/organisms/Dashboard/DashboardHeader'
+import DashboardNavbar from '../components/organisms/Dashboard/DashboardNavbar'
 
 const DashboardLayouts = ({ children }) => {
   return (

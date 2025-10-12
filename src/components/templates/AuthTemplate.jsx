@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import SiteHeader from '../organisms/SiteHeader'
+import SiteHeader from '../organisms/Homepage/SiteHeader'
 
 const AuthTemplate = ({ children }) => {
   return (

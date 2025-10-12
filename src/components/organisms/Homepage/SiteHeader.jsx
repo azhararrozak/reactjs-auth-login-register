@@ -1,6 +1,6 @@
-import Button from '../atoms/Button'
+import Button from '../../atoms/Button'
 import { Link } from 'react-router-dom'
-import useAuthStore from '../../stores/useAuthStore'
+import useAuthStore from '../../../stores/useAuthStore'
 
 const SiteHeader = () => {
   const user = useAuthStore((s) => s.user)

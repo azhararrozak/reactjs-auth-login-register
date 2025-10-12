@@ -1,6 +1,6 @@
 
 import PropTypes from 'prop-types'
-import HomepageHeader from '../components/organisms/HomepageHeader'
+import HomepageHeader from '../components/organisms/Homepage/HomepageHeader'
 
 const MainLayouts = ({ children }) => {
   return (
