@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import useAuthStore from "../stores/useAuthStore";
+import FormField from "../components/molecules/FormField";
+import Button from "../components/atoms/Button";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -59,34 +61,10 @@ const Login = () => {
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <form className="space-y-6" onSubmit={handleLogin}>
-            <div>
-              <label
-                htmlFor="username"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Username
-              </label>
-              <div className="mt-1">
-                <input
-                  id="username"
-                  name="username"
-                  type="text"
-                  autoComplete="username"
-                  required
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  value={username}
-                  onChange={onChangeUsername}
-                />
-              </div>
-            </div>
+            <FormField id="username" label="Username" value={username} onChange={onChangeUsername} />
 
             <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Password
-              </label>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
               <div className="mt-1 relative">
                 <input
                   id="password"
@@ -98,12 +76,7 @@ const Login = () => {
                   value={password}
                   onChange={onChangePassword}
                 />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword((v) => !v)}
-                  className="absolute inset-y-0 right-2 flex items-center text-gray-500"
-                  aria-label={showPassword ? 'Hide password' : 'Show password'}
-                >
+                <button type="button" onClick={() => setShowPassword((v) => !v)} className="absolute inset-y-0 right-2 flex items-center text-gray-500" aria-label={showPassword ? 'Hide password' : 'Show password'}>
                   {showPassword ? (
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                       <path d="M10 3C5 3 1.73 6.11.5 10c1.23 3.89 4.5 7 9.5 7s8.27-3.11 9.5-7C18.27 6.11 15 3 10 3zm0 12a5 5 0 110-10 5 5 0 010 10z" />
@@ -119,12 +92,8 @@ const Login = () => {
             </div>
 
             <div>
-              <button
-                type="submit"
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                disabled={loading}
-              >
-                {loading && (
+              <Button type="submit" className="w-full" disabled={loading}>
+                {loading ? (
                   <div role="status">
                     <svg
                       aria-hidden="true"
@@ -144,9 +113,10 @@ const Login = () => {
                     </svg>
                     <span className="sr-only">Loading...</span>
                   </div>
+                ) : (
+                  'Sign in'
                 )}
-                Sign in
-              </button>
+              </Button>
             </div>
           </form>
           {message && (

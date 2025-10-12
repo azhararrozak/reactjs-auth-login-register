@@ -1,14 +1,13 @@
-import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import useAuthStore from "../../stores/useAuthStore";
 
-const Header = () => {
+const HomepageHeader = () => {
   const navigate = useNavigate();
   const user = useAuthStore((s) => s.user);
 
   const handleLogout = () => {
-  useAuthStore.getState().logout();
-  navigate("/");
+    useAuthStore.getState().logout();
+    navigate("/");
   };
 
   return (
@@ -21,7 +20,6 @@ const Header = () => {
             alt=""
           />
         </Link>
-        
       </div>
 
       <div className="hidden sm:flex items-center space-x-5 font-bold cursor-pointer">
@@ -38,4 +36,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default HomepageHeader;

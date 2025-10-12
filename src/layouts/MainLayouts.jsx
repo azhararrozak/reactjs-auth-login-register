@@ -1,10 +1,10 @@
-import React from 'react'
-import Header from '../components/homepage/Header'
+
+import HomepageHeader from '../components/organisms/HomepageHeader'
 
 const MainLayouts = ({ children }) => {
   return (
     <>
-      <Header />
+  <HomepageHeader />
       <main className="content">{children}</main>
     </>
   )
